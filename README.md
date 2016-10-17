@@ -1,29 +1,11 @@
 # conjur-registry-proxy
 Use conjur-asset-proxy to access a Conjur-protected Docker registry.
 
-# Build
-
-```
-$ docker build -t conjur-registry-proxy .
-```
-
 # Run
-You must first use `conjur init` and `conjur authn login` to connect to and authenticate with the Conjur server protecting the registry. Then, grab the path to the cert from `~/.conjurrc`, and start the proxy container in the background
+You must first use `conjur init` to connect to the Conjur server protecting the registry.
 
 ```
-$ cert_file=$(grep cert_file ~/.conjurrc | awk '{print $2}' | tr -d '"')
-$ docker run -d -p 80:80 \
-  -v ~/.netrc:/root/.netrc \
-  -v ~/.conjurrc:/root/.conjurrc \
-  -v $cert_file:/root/conjur.pem \
-  -e CONJUR_CERT_FILE=/root/conjur.pem \
-  --name conjur-registry-proxy conjur-registry-proxy
-```
-
-To see the logs:
-
-```
-$ docker logs conjur-registry-proxy
+$ ./run.sh
 ```
 
 # Use
