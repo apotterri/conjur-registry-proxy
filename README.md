@@ -23,15 +23,13 @@ Note: This does not actually make the registry insecure, because all the "insecu
 
 # Run
 
-You must first use `conjur init` to connect to the Conjur server protecting the registry.
-
 ```
 $ ./run.sh
 ```
 
 # Use
 
-Run as above, the proxy listens on port 80 for requests to forward. If you reference your Docker registry by name (e.g. `registry.tld`), you'll need to add an entry to `/etc/hosts`:
+Run as above, the proxy listens on localhost port 80 for requests to forward. If you reference your Docker registry by name (e.g. `registry.tld`), you'll need to add an entry to `/etc/hosts`:
 
 ```
 127.0.0.1	registry.tld
