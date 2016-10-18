@@ -45,7 +45,7 @@ if [[ $PROXY_DOCKER_ID ]] ; then
   docker rm $PROXY_DOCKER_ID
 fi
 
-docker run $DOCKER_ARGUMENTS -p 80:80 \
+docker run $DOCKER_ARGUMENTS --net=host \
     -v ~/.netrc:/root/.netrc \
     -v ~/.conjurrc:/root/.conjurrc \
     -v $cert_file:/root/conjur.pem \
