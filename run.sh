@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 DOCKER_ARGUMENTS="-d"
 
@@ -31,8 +31,10 @@ case $key in
 esac
 done
 
-if ! [[ "$(conjur authn whoami)" =~ account ]] ; then
-  conjur authn login
+logged_in=$(conjur authn whoami 2>/dev/null || true)
+if [[ !($logged_in =~ account) && "$DOCKER_ARGUMENTS" == "-d" ]] ; then
+  echo "Not logged in to Conjur, switching to interactive mode"
+  DOCKER_ARGUMENTS="-it"
 fi
 
 docker build -t conjur-registry-proxy .
@@ -45,11 +47,11 @@ if [[ $PROXY_DOCKER_ID ]] ; then
   docker rm $PROXY_DOCKER_ID
 fi
 
+# Ensure .netrc exists so docker doesn't create it as a directory
+[[ ! -f ~/.netrc ]] && touch ~/.netrc
+
 docker run $DOCKER_ARGUMENTS --net=host \
     -v ~/.netrc:/root/.netrc \
-    -v ~/.conjurrc:/root/.conjurrc \
-    -v $cert_file:/root/conjur.pem \
-    -e CONJUR_CERT_FILE=/root/conjur.pem \
     --name conjur-registry-proxy conjur-registry-proxy
 
 if [[ $DOCKER_ARGUMENTS = "-d" ]] ; then
