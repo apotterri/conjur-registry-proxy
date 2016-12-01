@@ -6,11 +6,21 @@ Use conjur-asset-proxy to access a Conjur-protected Docker registry.
 
 ## `/etc/hosts`
 
-For historical reasons, the name of Conjur's Docker registry is `registry.tld`. Add this name as an alias to localhost in your `/etc/hosts` file (for example, by running `sudo vi /etc/hosts`). It should look like this when you are done:
+For historical reasons, the name of Conjur's Docker registry is `registry.tld`. Add this name as an alias to localhost in your `/etc/hosts` file (for example, by running `sudo nano /etc/hosts`; use `Ctrl-O` to save, `Ctrl-X` to exit). It should look something like this when you are done:
 
 ```sh-session
-$ cat /etc/hosts | grep registry.tld
+$ cat /etc/hosts
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
 127.0.0.1       registry.tld
+255.255.255.255	broadcasthost
+::1             localhost
+fe80::1%lo0	localhost
 ```
 
 ## Docker for Mac
@@ -29,13 +39,7 @@ $ ./run.sh
 
 # Use
 
-Run as above, the proxy listens on localhost port 80 for requests to forward. If you reference your Docker registry by name (e.g. `registry.tld`), you'll need to add an entry to `/etc/hosts`:
-
-```
-127.0.0.1	registry.tld
-```
-
-Then, you can access your registry through the proxy
+Run as above, the proxy listens on localhost port 80 for requests to forward. Then, you can access your registry through the proxy
 
 ```
 $ docker search registry.tld/conjur-appliance
