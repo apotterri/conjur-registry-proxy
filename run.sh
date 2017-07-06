@@ -50,7 +50,7 @@ fi
 # Ensure .netrc exists so docker doesn't create it as a directory
 [[ ! -f ~/.netrc ]] && touch ~/.netrc
 
-docker run $DOCKER_ARGUMENTS --net=host \
+docker run --restart=always $DOCKER_ARGUMENTS --net=host \
     -v ~/.netrc:/root/.netrc \
     --name conjur-registry-proxy conjur-registry-proxy
 
