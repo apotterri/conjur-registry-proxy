@@ -29,7 +29,7 @@ Next, add `registry.tld` as an "insecure registry" to your Docker for Mac config
 
 ![Add registry.tld as an insecure registry](./doc/images/docker_mac_config.png)
 
-Note: This does not actually make the registry insecure, because all the "insecure" (non-HTTTPS) traffic is happening inside your local machine.
+Note: This does not actually make the registry insecure, because all the "insecure" (non-HTTPS) traffic is happening inside your local machine.
 
 # Run
 
